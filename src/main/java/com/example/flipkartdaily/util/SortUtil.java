@@ -12,18 +12,10 @@ import java.util.Map;
 public class SortUtil {
 
     public static Comparator<Item> getComparator(OrderBy orderBy, OrderDir orderDir, Map<Item, InventoryEntry> inventory) {
-        SortStrategy strategy;
-
-        switch (orderBy) {
-            case PRICE:
-                strategy = new PriceSortStrategy();
-                break;
-            case ITEM_QTY:
-                strategy = new QuantitySortStrategy();
-                break;
-            default:
-                throw new IllegalArgumentException("Unsupported orderBy: " + orderBy);
-        }
+        SortStrategy strategy = switch (orderBy) {
+            case PRICE -> new PriceSortStrategy();
+            case ITEM_QTY -> new QuantitySortStrategy();
+        };
 
         return strategy.getComparator(inventory, orderDir);
     }
